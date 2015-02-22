@@ -61,4 +61,4 @@
 } // End of namespace
 //----------- Calling unmanaged code
 .method public static pinvokeimpl("msvcrt.dll" cdecl)
-      vararg int32 sscanf(string,string) cil managed { }
+      vararg int32 sscanf(string,string) cil managed preservesig { }

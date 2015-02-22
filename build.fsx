@@ -19,6 +19,7 @@ Target "Clean" (fun _ ->
 Target "Default" (fun _ ->
                   ilasm "Simple.il"
                   ilasm "Simple1.il"
+                  ilasm "Simple2.il"
 )
 
 // Dependencies
