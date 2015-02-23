@@ -21,10 +21,14 @@
                 call string [mscorlib]System.Console::ReadLine()
                 // pop // CHANGE!
                 // ldnull // CHANGE!
-                // NOTE: That code no longer throws a catchable NullPointerException at least on Windows 7 SP1 x64 and
-                // Visual Studio 2013; it throws AccessViolationException that cannot be caught. Try this instead:
+                
+                // NOTE: That code no longer throws a catchable System.NullReferenceException at least on Windows 7 SP1
+                // x64 and Visual Studio 2013; it throws System.AccessViolationException that cannot be caught. Try this
+                // instead:
+                
                 // newobj instance void [mscorlib]System.Exception::.ctor()
                 // throw
+                
                 ldstr "%d"
                 ldsflda int32 Odd.or.Even::val
                 call vararg int32 sscanf(string,string,...,int32*)
