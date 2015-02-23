@@ -59,4 +59,4 @@
 } // End of class
 //------------ Calling unmanaged code
 .method public static pinvokeimpl("msvcrt.dll" cdecl)
-      vararg int32 sscanf(string,string) { }
+      vararg int32 sscanf(string,string) preservesig { }
