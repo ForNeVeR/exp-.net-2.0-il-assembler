@@ -22,8 +22,15 @@
       // Guarded block begins
       call string TTY::ReadLine()
 #ifdef BLOW_UP
-      pop
-      ldnull
+      // pop
+      // ldnull
+
+      // NOTE: That code no longer throws a catchable System.NullReferenceException at least on Windows 7 SP1
+      // x64 and Visual Studio 2013; it throws System.AccessViolationException that cannot be caught. Try this
+      // instead:
+                
+      newobj instance void [mscorlib]System.Exception::.ctor()
+      throw
 #endif
 
 #ifdef USE_MAPPED_FIELD
@@ -81,5 +88,5 @@
 #else
 //------------ Calling unmanaged code
 .method public static pinvokeimpl("msvcrt.dll" cdecl)
-      vararg int32 sscanf(string,string) { }
+      vararg int32 sscanf(string,string) preservesig { }
 #endif

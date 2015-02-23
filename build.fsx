@@ -21,6 +21,7 @@ Target "Default" (fun _ ->
                   ilasm "Simple1.il"
                   ilasm "Simple2.il"
                   ilasm "Simple3.il"
+                  ilasm "Simple4.il"
 )
 
 // Dependencies
