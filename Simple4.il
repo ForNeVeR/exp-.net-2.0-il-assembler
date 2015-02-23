@@ -28,7 +28,7 @@
       // NOTE: That code no longer throws a catchable System.NullReferenceException at least on Windows 7 SP1
       // x64 and Visual Studio 2013; it throws System.AccessViolationException that cannot be caught. Try this
       // instead:
-                
+
       newobj instance void [mscorlib]System.Exception::.ctor()
       throw
 #endif
@@ -84,7 +84,7 @@
 .class public explicit value CharArray8 { .size 8  }
 //----------- Calling unmanaged code
 .method public static pinvokeimpl("msvcrt.dll" cdecl) 
-    vararg int32 sscanf(string,int8*) { }
+    vararg int32 sscanf(string,int8*) preservesig { }
 #else
 //------------ Calling unmanaged code
 .method public static pinvokeimpl("msvcrt.dll" cdecl)
