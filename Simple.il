@@ -48,5 +48,5 @@
 .class public explicit CharArray8 
               extends [mscorlib]System.ValueType { .size 8  }
 //----------- Calling unmanaged code
-.method public static pinvokeimpl("msvcrt.dll" cdecl) 
-    vararg int32 sscanf(string,int8*) cil managed { }
+.method public static pinvokeimpl("msvcrt.dll" ansi cdecl)
+    vararg int32 sscanf(string,int8*) cil managed preservesig {}

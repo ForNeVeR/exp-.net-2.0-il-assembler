@@ -2,63 +2,72 @@
 .assembly extern mscorlib { auto }
 .assembly OddOrEven { }
 .module OddOrEven.exe
+
 //----------- Class Declaration
 .namespace Odd.or {
-  .class public auto ansi Even
-            extends [mscorlib]System.Object {
-//------------ Field declaration
-    .field public static int32 val
-//------------ Method declaration
-    .method public static void check( ) cil managed {
-      .entrypoint
-      .locals init (int32 Retval)
-    AskForNumber:
-      ldstr "Enter a number"
-      call void [mscorlib]System.Console::WriteLine(string)
-      .try { // CHANGE!
-        // Guarded block begins
-        call string [mscorlib]System.Console::ReadLine()
-        // pop // CHANGE!
-        // ldnull // CHANGE!
-        ldstr "%d" 
-        ldsflda int32 Odd.or.Even::val
-        call vararg int32 sscanf(string,string,...,int32*)
-        stloc.0
-        leave.s DidntBlowUp // CHANGE!
-        // Guarded block ends
-      } // CHANGE!
-      // CHANGE block begins! --->
-      catch [mscorlib]System.Exception
-      { // Exception handler begins
-        pop 
-        ldstr "KABOOM!"
-        call void [mscorlib]System.Console::WriteLine(string)
-        leave.s Return
-      } // Exception handler ends
-    DidntBlowUp:
-      // <--- CHANGE block ends!
+    .class public auto ansi Even extends [mscorlib]System.Object {
+        //------------ Field declaration
+        .field public static int32 val
+
+        //------------ Method declaration
+        .method public static void check( ) cil managed {
+            .entrypoint
+            .locals init (int32 Retval)
+        AskForNumber:
+            ldstr "Enter a number"
+            call void [mscorlib]System.Console::WriteLine(string)
+            .try { // CHANGE!
+                // Guarded block begins
+                call string [mscorlib]System.Console::ReadLine()
+                // pop // CHANGE!
+                // ldnull // CHANGE!
+                
+                // NOTE: That code no longer throws a catchable System.NullReferenceException at least on Windows 7 SP1
+                // x64 and Visual Studio 2013; it throws System.AccessViolationException that cannot be caught. Try this
+                // instead:
+                
+                // newobj instance void [mscorlib]System.Exception::.ctor()
+                // throw
+                
+                ldstr "%d"
+                ldsflda int32 Odd.or.Even::val
+                call vararg int32 sscanf(string,string,...,int32*)
+                stloc.0
+                leave.s DidntBlowUp // CHANGE!
+                // Guarded block ends
+            } // CHANGE!
+            // CHANGE block begins! --->
+            catch [mscorlib]System.Exception
+            { // Exception handler begins
+                pop
+                ldstr "KABOOM!"
+                call void [mscorlib]System.Console::WriteLine(string)
+                leave.s Return
+            } // Exception handler ends
+        DidntBlowUp:
+            // <--- CHANGE block ends!
+            ldloc.0
+            brfalse.s Error
+            ldsfld int32 Odd.or.Even::val
+            ldc.i4.1
+            and
+            brfalse.s ItsEven
+            ldstr "odd!"
+            br.s PrintAndReturn
+        ItsEven:
+            ldstr "even!"
+            br.s PrintAndReturn
+        Error:
+            ldstr "How rude!"
+        PrintAndReturn:
+            call void [mscorlib]System.Console::WriteLine(string)
       ldloc.0
-      brfalse.s Error
-      ldsfld int32 Odd.or.Even::val
-      ldc.i4.1
-      and
-      brfalse.s ItsEven
-      ldstr "odd!"
-      br.s PrintAndReturn
-    ItsEven:
-      ldstr "even!"
-      br.s PrintAndReturn
-    Error:
-      ldstr "How rude!"
-    PrintAndReturn:
-      call void [mscorlib]System.Console::WriteLine(string)
-      ldloc.0
-      brtrue.s AskForNumber
-    Return: // CHANGE!
-      ret
-    } // End of method
-  } // End of class
+            brtrue.s AskForNumber
+            Return: // CHANGE!
+            ret
+        } // End of method
+    } // End of class
 } // End of namespace
 //----------- Calling unmanaged code
-.method public static pinvokeimpl("msvcrt.dll" cdecl)
-      vararg int32 sscanf(string,string) cil managed { }
+.method public static pinvokeimpl("msvcrt.dll" cdecl) vararg int32 sscanf(string,string) cil managed preservesig {
+}
